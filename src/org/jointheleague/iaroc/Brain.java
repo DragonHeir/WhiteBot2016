@@ -9,6 +9,9 @@ import org.jointheleague.iaroc.sensors.UltraSonicSensors;
 public class Brain extends IRobotCreateAdapter {
     private final Dashboard dashboard;
     public UltraSonicSensors sonar;
+    boolean isBumpRight;
+    boolean isBumpLeft;
+    int getInfraredByte;
 
     public Brain(IOIO ioio, IRobotCreateInterface create, Dashboard dashboard)
             throws ConnectionLostException {
@@ -25,7 +28,17 @@ public class Brain extends IRobotCreateAdapter {
 
 
 
+
     }
     /* This method is called repeatedly. */
-    public void loop() throws ConnectionLostException {}
+    public void loop() throws ConnectionLostException {
+        readSensors(SENSORS_INFRARED_BYTE);
+        dashboard.log(""+getInfraredByte());
+        if (getInfraredByte() == 244){
+            driveDirect(100,100);
+        }
+        else {
+            driveDirect(100, -100);
+        }
+    }
 }
